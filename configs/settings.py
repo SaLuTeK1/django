@@ -37,6 +37,7 @@ INSTALLED_APPS = [
 
     #myapps
     'apps.cars',
+    'apps.auto_parks',
     'core'
 ]
 
