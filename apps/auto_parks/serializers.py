@@ -9,3 +9,7 @@ class AutoParkSerializer(serializers.ModelSerializer):
         model=AutoParkModel
         fields=('id','name','cars')
 
+class AutoParkWithOutCarsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model=AutoParkModel
+        fields=('id','name')
