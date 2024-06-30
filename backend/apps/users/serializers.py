@@ -8,9 +8,8 @@ from apps.users.models import ProfileModel
 
 UserModel = get_user_model()
 
-
 from django.core.files import File
-#перевірка двох запитів в базу
+# перевірка двох запитів в базу
 from django.db.transaction import atomic
 
 
@@ -25,9 +24,9 @@ class ProfileAvatarSerializer(serializers.ModelSerializer):
         model = ProfileModel
         fields = ('avatar',)
         extra_kwargs = {'avatar': {'required': True}}
-        
+
     def validate_avatar(self, avatar: File):
-        max_size = 100*1024
+        max_size = 100 * 1024
         if avatar.size > max_size:
             raise serializers.ValidationError('max size 100kb')
         return avatar
@@ -35,6 +34,7 @@ class ProfileAvatarSerializer(serializers.ModelSerializer):
 
 class UserSerializer(serializers.ModelSerializer):
     profile = ProfileSerializer()
+
     class Meta:
         model = UserModel
         fields = (
@@ -50,7 +50,7 @@ class UserSerializer(serializers.ModelSerializer):
         }
 
     @atomic
-    def create(self, validated_data:dict):
+    def create(self, validated_data: dict):
         profile = validated_data.pop('profile')
         user = UserModel.objects.create_user(**validated_data)
         ProfileModel.objects.create(**profile, user=user)
